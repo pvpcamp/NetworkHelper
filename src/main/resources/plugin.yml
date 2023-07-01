@@ -1,4 +1,4 @@
-main: camp.pvp.NetworkerPlugin
+main: camp.pvp.NetworkHelper
 name: NetworkHelper
 author: pvp.camp
 version: ${plugin.desc}
