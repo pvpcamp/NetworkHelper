@@ -36,7 +36,7 @@ public class MongoManager {
                 .applyConnectionString(new ConnectionString(config.getString("mongo.uri")))
                 .build();
         client = MongoClients.create(mcs);
-        database = client.getDatabase(config.getString("mongo.database"));
+        database = client.getDatabase(config.getString("mongo.db"));
     }
 
     public void createDocument(boolean async, String collectionName, Object id) {
