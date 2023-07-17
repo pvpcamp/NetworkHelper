@@ -60,6 +60,15 @@ public class MongoManager {
         });
     }
 
+    public void deleteDocument(boolean async, String collectionName, Object id) {
+        ThreadUtil.runTask(async, this.plugin, () -> {
+            MongoCollection<Document> collection = database.getCollection(collectionName);
+            Document document = new Document("_id", id);
+
+            collection.deleteOne(document);
+        });
+    }
+
     public void massUpdate(final boolean async, final MongoUpdate mongoUpdate) {
         massUpdate(async, mongoUpdate.getCollectionName(), mongoUpdate.getId(), mongoUpdate.getUpdate());
     }
