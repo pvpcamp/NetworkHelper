@@ -1,5 +1,6 @@
 package camp.pvp;
 
+import camp.pvp.listeners.MongoMessageListener;
 import camp.pvp.mongo.MongoManager;
 import camp.pvp.redis.RedisPublisher;
 import camp.pvp.redis.RedisSubscriber;
@@ -48,6 +49,8 @@ public class NetworkHelper extends JavaPlugin {
             logger.warning("MongoDB and Redis are both disabled, could this be a first time setup?" +
                     "If you have plugins that depend on " + this.getName() + ", please fix this immediately.");
         }
+
+        new MongoMessageListener(this);
     }
 
     @Override
