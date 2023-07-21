@@ -1,4 +1,4 @@
 main: camp.pvp.NetworkHelper
 name: NetworkHelper
-author: pvp.camp
+author: leuo
 version: ${plugin.desc}

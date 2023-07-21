@@ -10,5 +10,5 @@ public abstract class RedisSubscriberListener {
         this.channel = channel;
     }
 
-    abstract void onReceive(JsonObject json);
+    public abstract void onReceive(JsonObject json);
 }

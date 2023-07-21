@@ -23,12 +23,12 @@ public class RedisPublisher {
 
         this.jedis = new Jedis(config.getString("redis.host"), config.getInt("redis.port"));
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             if(!messageQueue.isEmpty()) {
                 RedisMessage message = messageQueue.poll();
                 jedis.publish(channel, message.getMessage().toString());
             }
-        });
+        }, 0, 1);
     }
 
     public void publishMessage(String channel, JsonObject elements) {

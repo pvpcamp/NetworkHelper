@@ -16,9 +16,6 @@ public class MongoMessageListener implements Listener {
 
     @EventHandler
     public void onMongoMessage(MongoMessageEvent event) {
-        Player player = event.getPlayer();
-        if(player != null) {
-            player.sendMessage(event.getMessage(true));
-        }
+            event.getSender().sendMessage(event.getMessage(true));
     }
 }

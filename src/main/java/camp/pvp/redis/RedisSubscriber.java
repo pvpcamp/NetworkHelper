@@ -2,6 +2,7 @@ package camp.pvp.redis;
 
 import camp.pvp.NetworkHelper;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -34,11 +35,13 @@ public class RedisSubscriber {
                     for(RedisSubscriberListener listener : listeners) {
                         RedisMessage m = new RedisMessage(message);
                         if(m.getInternalChannel().equals(listener.getChannel())) {
-                            listener.onReceive(m.getMessage());
+                            listener.onReceive(m.getElements());
                         }
                     }
                 }
             }
         };
+
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, ()-> jedis.subscribe(jedisPubSub, channel));
     }
 }

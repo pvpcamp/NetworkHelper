@@ -3,6 +3,7 @@ package camp.pvp.events;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -14,15 +15,11 @@ public class MongoMessageEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
-    public MongoMessageEvent(String message, UUID uniqueId, Date requestStarted, Date requestFinished) {
+    public MongoMessageEvent(String message, CommandSender sender, Date requestStarted) {
         this.message = message;
-        this.uniqueId = uniqueId;
+        this.sender = sender;
         this.requestStarted = requestStarted;
-        this.requestFinished = requestFinished;
-    }
-
-    public Player getPlayer() {
-        return Bukkit.getPlayer(uniqueId);
+        this.requestFinished = new Date();
     }
 
     public String getMessage(boolean includeTime) {
@@ -47,7 +44,7 @@ public class MongoMessageEvent extends Event {
     }
 
     private final String message;
-    private final UUID uniqueId;
+    @Getter private final CommandSender sender;
     private final Date requestStarted, requestFinished;
 
 
