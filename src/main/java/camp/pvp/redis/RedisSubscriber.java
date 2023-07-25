@@ -1,44 +1,30 @@
 package camp.pvp.redis;
 
-import camp.pvp.NetworkHelper;
-import lombok.Getter;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class RedisSubscriber {
 
-    private NetworkHelper plugin;
+    private JavaPlugin plugin;
     private Jedis jedis;
     private JedisPubSub jedisPubSub;
-    private @Getter Set<RedisSubscriberListener> listeners;
-    private String channel;
+    private RedisSubscriberListener listener;
 
-    public RedisSubscriber(NetworkHelper plugin) {
+    public RedisSubscriber(JavaPlugin plugin, String host, int port, String channel, RedisSubscriberListener listener) {
         this.plugin = plugin;
-        this.listeners = new HashSet<>();
-
-        FileConfiguration config = plugin.getConfig();
-
-        this.channel = config.getString("redis.channel");
-
-        this.jedis = new Jedis(config.getString("redis.host"), config.getInt("redis.port"));
+        this.jedis = new Jedis(host, port);
+        this.listener = listener;
 
         this.jedisPubSub = new JedisPubSub() {
             @Override
             public void onMessage(String c, String message) {
-                if(c.equals(channel)) {
-                    for(RedisSubscriberListener listener : listeners) {
-                        RedisMessage m = new RedisMessage(message);
-                        if(m.getInternalChannel().equals(listener.getChannel())) {
-                            listener.onReceive(m.getElements());
-                        }
-                    }
-                }
+                JsonParser jp = new JsonParser();
+                JsonObject json = jp.parse(message).getAsJsonObject();
+                RedisSubscriber.this.listener.onReceive(json);
             }
         };
 

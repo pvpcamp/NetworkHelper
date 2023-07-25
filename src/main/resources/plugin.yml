@@ -1,4 +1,5 @@
 main: camp.pvp.NetworkHelper
 name: NetworkHelper
+description: MongoDB and Redis library for Spigot/Bungee.
 author: leuo
 version: ${plugin.desc}

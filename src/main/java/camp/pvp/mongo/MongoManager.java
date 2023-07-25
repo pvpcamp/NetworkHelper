@@ -1,6 +1,5 @@
 package camp.pvp.mongo;
 
-import camp.pvp.NetworkHelper;
 import camp.pvp.utils.ThreadUtil;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -12,31 +11,26 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.UuidRepresentation;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Logger;
 
 public class MongoManager {
 
-    private NetworkHelper plugin;
-    private Logger logger;
+    private JavaPlugin plugin;
     private MongoClient client;
     private MongoDatabase database;
 
-    public MongoManager(NetworkHelper plugin) {
+    public MongoManager(JavaPlugin plugin, String uri, String db) {
         this.plugin = plugin;
-        this.logger = plugin.getLogger();
-
-        FileConfiguration config = plugin.getConfig();
 
         MongoClientSettings mcs = MongoClientSettings.builder()
                 .uuidRepresentation(UuidRepresentation.STANDARD)
-                .applyConnectionString(new ConnectionString(config.getString("mongo.uri")))
+                .applyConnectionString(new ConnectionString(uri))
                 .build();
         client = MongoClients.create(mcs);
-        database = client.getDatabase(config.getString("mongo.db"));
+        database = client.getDatabase(db);
     }
 
     public void createDocument(boolean async, String collectionName, Object id) {

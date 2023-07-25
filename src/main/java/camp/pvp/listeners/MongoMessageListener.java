@@ -2,7 +2,6 @@ package camp.pvp.listeners;
 
 import camp.pvp.NetworkHelper;
 import camp.pvp.events.MongoMessageEvent;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -16,6 +15,6 @@ public class MongoMessageListener implements Listener {
 
     @EventHandler
     public void onMongoMessage(MongoMessageEvent event) {
-            event.getSender().sendMessage(event.getMessage(true));
+        event.getSender().sendMessage(event.getMessage(true));
     }
 }

@@ -1,15 +1,12 @@
 package camp.pvp.events;
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class MongoMessageEvent extends Event {
 
