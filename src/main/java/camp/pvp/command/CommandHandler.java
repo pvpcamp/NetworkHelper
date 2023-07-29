@@ -3,6 +3,7 @@ package camp.pvp.command;
 import camp.pvp.NetworkHelper;
 import camp.pvp.command.framework.Command;
 import camp.pvp.command.framework.CommandFramework;
+import camp.pvp.command.impl.CommandInfoCommand;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class CommandHandler {
         this.plugin = plugin;
         commandFramework = new CommandFramework(plugin);
         cmds = new ArrayList<>();
+        registerCommand(new CommandInfoCommand());
     }
 
     public void registerCommand(Object o) {
