@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class BukkitCommand extends org.bukkit.command.Command {
         List<String> completions = new ArrayList<>();
 
         int currentArg = args.length - 1;
-        Bukkit.getOnlinePlayers().stream().filter(p -> !completions.contains(p.getName()) && p.getName().startsWith(args[currentArg])).forEach(p -> completions.add(p.getName()));
+        Bukkit.getOnlinePlayers().stream().filter(p -> !completions.contains(p.getName()) && p.getName().toLowerCase().startsWith(args[currentArg].toLowerCase())).forEach(p -> completions.add(p.getName()));
 
         return completions;
     }
