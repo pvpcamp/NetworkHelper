@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import lombok.Getter;
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,8 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MongoManager {
 
     private JavaPlugin plugin;
-    private MongoClient client;
-    private MongoDatabase database;
+    @Getter private MongoClient client;
+    @Getter private MongoDatabase database;
 
     public MongoManager(JavaPlugin plugin, String uri, String db) {
         this.plugin = plugin;
