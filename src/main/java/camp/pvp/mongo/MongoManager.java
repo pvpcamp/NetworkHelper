@@ -9,12 +9,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import com.mongodb.connection.ClusterSettings;
 import lombok.Getter;
 import org.bson.Document;
 import org.bson.UuidRepresentation;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MongoManager {
@@ -28,6 +30,17 @@ public class MongoManager {
 
         MongoClientSettings mcs = MongoClientSettings.builder()
                 .uuidRepresentation(UuidRepresentation.STANDARD)
+                .retryWrites(true)
+                .applyToConnectionPoolSettings(builder ->
+                        builder.maxSize(100)
+                                .minSize(5)
+                                .maxConnectionLifeTime(30, TimeUnit.MINUTES)
+                                .maxConnectionIdleTime(10, TimeUnit.SECONDS)
+                )
+                .applyToSocketSettings(builder ->
+                        builder.connectTimeout(3, TimeUnit.SECONDS)
+                                .readTimeout(3, TimeUnit.SECONDS)
+                )
                 .applyConnectionString(new ConnectionString(uri))
                 .build();
         client = MongoClients.create(mcs);
